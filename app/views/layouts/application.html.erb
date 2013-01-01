@@ -1,21 +1,31 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>Depot</title>
-  <%= stylesheet_link_tag    "application", :media => "all" %>
-  <%= javascript_include_tag "application" %>
-  <%= csrf_meta_tags %>
-</head>
-<body>
-  <table>
-    <tr>
-      <td>
-
+  <head>
+    <title>Depot</title>
+    <%= stylesheet_link_tag    "application", :media => "all" %>
+    <%= javascript_include_tag "application" %>
+    <%= csrf_meta_tags %>
+  </head>
+  <body>
+    <table>
+      <tr>
+        <td colspan='2'>
+          k-Books!
         </td>
-    </tr>
-  </table>
+      </tr>
+      <tr>
+        <td>
+          <h2>Links</h2>
+          <ul>
+            <li><a href="#">Home</a>
+          </ul>
+        </td>
+        <td>
+    <%= yield %>
+          </td>
+      </tr>
+    </table>
 
-<%= yield %>
 
-</body>
+  </body>
 </html>
