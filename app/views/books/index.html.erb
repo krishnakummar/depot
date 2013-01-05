@@ -12,6 +12,11 @@
 <% @books.each do |book| %>
   <tr>
     <td><%= image_tag(book.picture, {:class => "img-circle", :height => 140, :width => 140}) if book.picture? %>
+      <div class="well">
+        <%= button_to "Add To Cart", line_items_path(:id => book.id) %>
+        
+      </div>
+    </td>
     <td><%= book.title %></td>
     <td><%= book.description %></td>
     <td><%= book.price %></td>

@@ -1,7 +1,14 @@
 Depot::Application.routes.draw do
+  resources :line_items
+
+
+  get "cart/add_item"
+  match 'add_item/:id' => "cart#add_item", :as => :add_item
+
   resources :books
+  resources :carts
 
-
+  
   resources :products
 
 
