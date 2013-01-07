@@ -1,7 +1,19 @@
 <p id="notice"><%= notice %></p>
-<% @cart.line_items.each do |l| %>
-  <%=  l.book.title %>
-  <br />
-<% end %>
+<table>
+  <tr>
+    <td> Book </td>
+    <td> Quantity </td>
+  </tr>
+  <tr>
+    <% @cart.line_items.each do |l| %>
+      <td>
+        <%=  l.book.title %>
+      </td>
+      <td>
+        <%= l.quanity %>
+        </td>
+        </tr>
+      <% end %>
+      </table>
 <%= link_to 'Edit', edit_cart_path(@cart) %> |
 <%= link_to 'Back', carts_path %>

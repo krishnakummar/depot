@@ -42,17 +42,51 @@ class LineItemsController < ApplicationController
   def create
     @cart = current_cart
     book = Book.find(params[:id])  
-    @line_item = @cart.line_items.build(:book_id => book.id)
-
-    respond_to do |format|
-      if @line_item.save
-        format.html { redirect_to(@line_item.cart, :notice => 'Line item was successfully created.') }
-        format.json { render json: @line_item, status: :created, location: @line_item }
+    if @cart.line_items.count > 0
+      @line_item = @cart.line_items.where(:book_id => params[:id])
+      if @line_item.count > 0
+        @line_item2 = LineItem.where(:book_id => params[:id], :cart_id => @cart.id)
+        Rails.logger.debug("my object : #{@line_item2.inspect}")
+        @line_item2.first.quanity += 1
+        respond_to do |format|
+          if @line_item2.first.save
+            @cart = Cart.find(@cart.id)
+            format.html { redirect_to(@cart, :notice => 'Line item was successfully added.') }
+          else
+            format.html { redirect_to(@line_item.cart, :notice => 'error') }
+          end
+        end
       else
-        format.html { render action: "new" }
-        format.json { render json: @line_item.errors, status: :unprocessable_entity }
+        @line_item = @cart.line_items.build(:book_id => book.id)
+        @line_item.quanity = 1
+        respond_to do |format|
+          if @line_item.save
+            format.html { redirect_to(@line_item.cart, :notice => 'Line item was successfully created.') }
+            format.json { render json: @line_item, status: :created, location: @line_item }
+          else
+            format.html { render action: "new" }
+            format.json { render json: @line_item.errors, status: :unprocessable_entity }
+          end
+        end
+
+
       end
+    else
+      @line_item = @cart.line_items.build(:book_id => book.id)
+      @line_item.quanity = 1
+      respond_to do |format|
+        if @line_item.save
+          format.html { redirect_to(@line_item.cart, :notice => 'Line item was successfully created.') }
+          format.json { render json: @line_item, status: :created, location: @line_item }
+        else
+          format.html { render action: "new" }
+          format.json { render json: @line_item.errors, status: :unprocessable_entity }
+        end
+      end
+
+
     end
+
   end
 
   # PUT /line_items/1
